@@ -1,8 +1,8 @@
-using SevenDaysStreamflowForecasts
+using SevenDayStreamflowForecasts
 
 using Test
 
-@testset "SevenDaysStreamflowForecasts" begin
+@testset "SevenDayStreamflowForecasts" begin
     sdf = SDF()
     @testset "SDF()" begin
         nrows, ncols = size(sdf.sites)
