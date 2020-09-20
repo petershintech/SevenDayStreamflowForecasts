@@ -59,20 +59,20 @@ julia> sdf.sites
 `get_forecasts()` returns the most recent forecast data as `DataFrames.DataFrame`. The method needs a site ID.
 The returned data have precentiles of ensemble forecasts and historical reference (streamflow climatology) along with the recent observation data.
 The site ID of a station can be found in `awrc_id` columne of `sdf.sites`.
+A new column called `DateTime` is created from `Time` strings but without considering the time zone.
 
 ````julia
 julia> using Dates
 julia> site_id = "410730";
 julia> data, header = get_forecasts(sdf, site_id);
 julia> data
-264×13 DataFrame. Omitted printing of 11 columns
-│ Row │ Time                  │ Observed Rainfall (mm/hour) │
-│     │ String                │ Union{Missing, Float64}     │
-├─────┼───────────────────────┼─────────────────────────────┤
-│ 1   │ 2020-09-15 10:00 AEST │ 0.0                         │
-│ 2   │ 2020-09-15 11:00 AEST │ 0.0                         │
-│ 3   │ 2020-09-15 12:00 AEST │ 0.0                         │
-│ 4   │ 2020-09-15 13:00 AEST │ 0.0                         │
+264×14 DataFrame. Omitted printing of 11 columns
+│ Row │ DateTime            │ Time                  │ Observed Rainfall (mm/hour) │
+│     │ DateTime            │ String                │ Union{Missing, Float64}     │
+├─────┼─────────────────────┼───────────────────────┼─────────────────────────────┤
+│ 1   │ 2020-09-16T10:00:00 │ 2020-09-16 10:00 AEST │ 0.0                         │
+│ 2   │ 2020-09-16T11:00:00 │ 2020-09-16 11:00 AEST │ 0.0                         │
+│ 3   │ 2020-09-16T12:00:00 │ 2020-09-16 12:00 AEST │ 0.0                         │
 ...
 ````
 

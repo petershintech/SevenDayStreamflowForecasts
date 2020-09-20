@@ -1,10 +1,11 @@
 module SevenDayStreamflowForecasts
 
 import Base.show
+using Dates: DateTime, DateFormat
 import HTTP
 using CSV: File
 import JSON
-using DataFrames: DataFrame, select!
+using DataFrames: DataFrame, select!, insertcols!
 
 const SDF_URL = "http://www.bom.gov.au/water/7daystreamflow/"
 const SITES_URL = SDF_URL * "content/config/site_config.json"
@@ -81,13 +82,13 @@ Return seasonal forecasts of a site.
 julia> using Dates
 julia> data, header = get_forecasts(sdf,"410730");
 julia> data
-264×13 DataFrame. Omitted printing of 10 columns
-│ Row │ Time                  │ Observed Rainfall (mm/hour) │ Forecast Rainfall Median (mm/hour) │
-│     │ String                │ Union{Missing, Float64}     │ Union{Missing, Float64}            │
-├─────┼───────────────────────┼─────────────────────────────┼────────────────────────────────────┤
-│ 1   │ 2020-09-15 10:00 AEST │ 0.0                         │ missing                            │
-│ 2   │ 2020-09-15 11:00 AEST │ 0.0                         │ missing                            │
-│ 3   │ 2020-09-15 12:00 AEST │ 0.0                         │ missing                            │
+264×14 DataFrame. Omitted printing of 11 columns
+│ Row │ DateTime            │ Time                  │ Observed Rainfall (mm/hour) │
+│     │ DateTime            │ String                │ Union{Missing, Float64}     │
+├─────┼─────────────────────┼───────────────────────┼─────────────────────────────┤
+│ 1   │ 2020-09-16T10:00:00 │ 2020-09-16 10:00 AEST │ 0.0                         │
+│ 2   │ 2020-09-16T11:00:00 │ 2020-09-16 11:00 AEST │ 0.0                         │
+│ 3   │ 2020-09-16T12:00:00 │ 2020-09-16 12:00 AEST │ 0.0                         │
 ...
 julia> println(header)
 Australian Bureau of Meteorology
@@ -114,6 +115,12 @@ function get_forecasts(sdf::SDF,
 
 	body_buf = seek(body_buf, 0)
 	data = DataFrame(File(body_buf, comment=HEADER_DELIM, missingstring="-"))
+
+    df = DateFormat("yyyy-mm-ddTHH:MM")
+    function to_datetime(dt)
+        return DateTime(join(split(dt)[1:2], "T"), df)
+    end
+    insertcols!(data, 1, "DateTime"=>to_datetime.(data.Time))
 
 	return data, new_header
 end
