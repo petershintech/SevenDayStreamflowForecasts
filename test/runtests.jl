@@ -21,7 +21,7 @@ using Test
 
             @test length(header) > 0 # At least one header line
         end
-        data, header = get_forecasts(sdf, "invalid ID", fc_date)
+        data, header = get_forecasts(sdf, "invalid ID")
         @test isempty(data)
         @test isempty(header)
     end
