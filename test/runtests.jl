@@ -18,6 +18,8 @@ using Test
             local nrows, ncols = size(data)
             @test nrows > 0 # At least one data point.
             @test ncols > 0 # At least one column.
+            @test names(data)[1] == "DateTime"
+            @test names(data)[2] == "Time"
 
             @test length(header) > 0 # At least one header line
         end
