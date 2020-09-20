@@ -1,0 +1,4 @@
+name = "SevenDayStreamflowForecasts"
+uuid = "bc3e21a5-3346-453f-aad7-4105b38f4ef6"
+authors = ["Peter Shin <petershintech@gmail.com>"]
+version = "0.1.0"
